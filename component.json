@@ -1,0 +1,20 @@
+{
+  "name": "tower-element",
+  "repo": "tower/element",
+  "description": "Tower Element component",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "tower/template": "*",
+    "tower/scope": "*"
+  },
+  "development": {
+    "visionmedia/mocha": "*"
+  },
+  "scripts": [
+    "index.js",
+    "lib/proto.js",
+    "lib/statics.js"
+  ],
+  "license": "MIT"
+}
