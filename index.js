@@ -3,7 +3,6 @@
  * Module dependencies.
  */
 
-var template = require('tower-template');
 var scope = require('tower-scope');
 var proto = require('./lib/proto');
 var statics = require('./lib/statics');
