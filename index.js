@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var scope = require('tower-scope');
+var content = require('tower-content');
 var proto = require('./lib/proto');
 var statics = require('./lib/statics');
 

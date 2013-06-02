@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "tower/template": "*",
-    "tower/scope": "*"
+    "tower/content": "*"
   },
   "development": {
     "visionmedia/mocha": "*"
