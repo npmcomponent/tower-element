@@ -34,6 +34,7 @@ function element(name) {
 
   function Element(options) {
     this.name = name;
+    this.content = this.constructor.content.init(options);
   }
 
   for (var key in statics) Element[key] = statics[key];
@@ -46,6 +47,7 @@ function element(name) {
   for (var key in proto) Element.prototype[key] = proto[key];
 
   Element.id = name;
+  Element.content = content(name);
   exports.collection[name] = Element;
   exports.collection.push(Element);
   exports.emit('define', Element);

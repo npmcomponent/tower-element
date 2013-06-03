@@ -7,6 +7,8 @@ if ('undefined' === typeof window) {
   var assert = require('timoxley-assert');
 }
 
+var query = require('component-query');
+
 describe('element', function(){
   beforeEach(element.clear);
 
@@ -20,7 +22,14 @@ describe('element', function(){
   });
 
   it('should have attrs', function(){
+    element('popup')
+      .template('<h1 data-text="title"></h1>')
+      .attr('title');
 
+    var obj = element('popup').init({ title: 'Hello World!' });
+    var el = obj.render();
+    assert('Hello World!' === el.textContent);
+    //$('body').prepend(el);
   });
 
   it('should have actions', function(){

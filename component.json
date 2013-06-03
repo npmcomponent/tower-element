@@ -7,11 +7,13 @@
   "dependencies": {
     "tower/emitter": "*",
     "tower/template": "*",
-    "tower/content": "*"
+    "tower/content": "*",
+    "component/domify": "*"
   },
   "development": {
     "visionmedia/mocha": "*",
-    "timoxley/assert": "*"
+    "timoxley/assert": "*",
+    "component/query": "*"
   },
   "scripts": [
     "index.js",
