@@ -29,11 +29,19 @@ describe('element', function(){
     var obj = element('popup').init({ title: 'Hello World!' });
     var el = obj.render();
     assert('Hello World!' === el.textContent);
-    //$('body').prepend(el);
   });
 
   it('should have actions', function(){
+    element('popup')
+      .template('<a data-text="title" href="#" on-click="anAction()"></a>')
+      .attr('title')
+      .action('anAction', function(){
+        console.log('an action');
+      });
 
+    var obj = element('popup').init({ title: 'Click Here' });
+    var el = obj.render();
+    $('body').prepend(el);
   });
 
   it('should support defining custom DSL methods', function(done){
