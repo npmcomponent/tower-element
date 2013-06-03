@@ -5,11 +5,13 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
+    "tower/emitter": "*",
     "tower/template": "*",
     "tower/content": "*"
   },
   "development": {
-    "visionmedia/mocha": "*"
+    "visionmedia/mocha": "*",
+    "timoxley/assert": "*"
   },
   "scripts": [
     "index.js",

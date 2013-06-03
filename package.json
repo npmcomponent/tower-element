@@ -4,6 +4,7 @@
   "main": "./index.js",
   "dependencies": {
     "tower-template": "*",
-    "tower-content": "*"
+    "tower-content": "*",
+    "tower-emitter": "*"
   }
 }
