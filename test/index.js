@@ -54,4 +54,18 @@ describe('element', function(){
       })
       .widget('a', 'b');
   });
+
+  it('should inherit', function(){
+    element('parent-element')
+      .attr('title')
+      .attr('checked', 'boolean', true);
+
+    element('child-element')
+      .inherit('parent-element')
+      .attr('description');
+
+    var content = element('child-element').content;
+    // XXX: need to fix attr name
+    console.log(content.attrs);
+  });
 });

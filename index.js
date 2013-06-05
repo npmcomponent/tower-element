@@ -65,6 +65,26 @@ Emitter(statics);
 Emitter(proto);
 
 /**
+ * Add parent class props/fns.
+ *
+ * @param {String} name
+ * @api public
+ */
+
+statics.inherit = function(name){
+  var parent = exports(name);
+
+  for (var i = 0, n = parent.content.attrs.length; i < n; i++) {
+    // XXX: should just have to be like this:
+    // this.attr(parent.attrs[i]);
+    var attr = parent.content.attrs[i];
+    this.attr(attr.name, attr.type, attr);
+  }
+
+  return this;
+};
+
+/**
  * Clear everything (for testing).
  */
 
