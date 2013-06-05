@@ -18,7 +18,8 @@
   "scripts": [
     "index.js",
     "lib/proto.js",
-    "lib/statics.js"
+    "lib/statics.js",
+    "lib/directives.js"
   ],
   "license": "MIT"
 }

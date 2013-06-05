@@ -7,6 +7,7 @@ var Emitter = require('tower-emitter');
 var content = require('tower-content');
 var proto = require('./lib/proto');
 var statics = require('./lib/statics');
+require('./lib/directives');
 
 /**
  * Expose `element`.
