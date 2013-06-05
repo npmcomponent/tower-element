@@ -49,6 +49,8 @@ function element(name) {
 
   Element.id = name;
   Element.content = content(name);
+  Element.superclasses = [];
+  Element.subclasses = [];
   exports.collection[name] = Element;
   exports.collection.push(Element);
   exports.emit('define', Element);
@@ -73,6 +75,17 @@ Emitter(proto);
 
 statics.inherit = function(name){
   var parent = exports(name);
+
+  if (this.superclasses.hasOwnProperty(name))
+    return this;
+
+  this.superclasses[name] = true;
+  this.superclasses.push(name);
+
+  if (!parent.subclasses.hasOwnProperty(this.id)) {
+    parent.subclasses[this.id] = true;
+    parent.subclasses.push(this.id);
+  }
 
   for (var i = 0, n = parent.content.attrs.length; i < n; i++) {
     // XXX: should just have to be like this:

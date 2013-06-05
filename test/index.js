@@ -66,6 +66,7 @@ describe('element', function(){
 
     var content = element('child-element').content;
     // XXX: need to fix attr name
-    console.log(content.attrs);
+    assert('parent-element' === element('child-element').superclasses[0]);
+    assert('child-element' === element('parent-element').subclasses[0]);
   });
 });
