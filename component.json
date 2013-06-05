@@ -7,6 +7,7 @@
   "dependencies": {
     "tower/emitter": "*",
     "tower/template": "*",
+    "tower/directive": "*",
     "tower/content": "*",
     "component/domify": "*"
   },
