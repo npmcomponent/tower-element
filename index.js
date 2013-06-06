@@ -22,7 +22,7 @@ exports = module.exports = element;
 exports.collection = [];
 
 /**
- * A one-liner.
+ * Get an `Element`.
  *
  * @param {String} name
  * @return {Function}
@@ -97,6 +97,22 @@ statics.inherit = function(name){
   return this;
 };
 
+statics.disinherit = function(name){
+  var parent = exports(name);
+
+  if (this.superclasses.hasOwnProperty(name)) {
+    delete this.superclasses[name];
+    this.superclasses.splice(1, this.superclasses.indexOf((name));
+  }
+
+  if (parent.subclasses.hasOwnProperty(this.id)) {
+    delete parent.subclasses[this.id];
+    parent.subclasses.splice(1, parent.subclasses.indexOf((this.id));
+  }
+
+  return this;
+};
+
 /**
  * Clear everything (for testing).
  */
@@ -104,4 +120,4 @@ statics.inherit = function(name){
 exports.clear = function(){
   exports.off();
   return this;
-}
+};
