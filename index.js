@@ -24,8 +24,8 @@ exports.collection = [];
 /**
  * Get an `Element`.
  *
- * @param {String} name
- * @return {Function}
+ * @param {String} name The element name.
+ * @return {Function} The Element class constructor.
  * @api public
  */
 
@@ -69,7 +69,9 @@ Emitter(proto);
 /**
  * Add parent class props/fns.
  *
- * @param {String} name
+ * @chainable
+ * @param {String} name Property/function name.
+ * @return {Element} The element class constructor.
  * @api public
  */
 
@@ -97,6 +99,15 @@ statics.inherit = function(name){
   return this;
 };
 
+/**
+ * Remove parent class props/fns.
+ *
+ * @chainable
+ * @param {String} name Property/function name.
+ * @return {Element} The element class constructor.
+ * @api public
+ */
+
 statics.disinherit = function(name){
   var parent = exports(name);
 
@@ -115,6 +126,8 @@ statics.disinherit = function(name){
 
 /**
  * Clear everything (for testing).
+ *
+ * @return {this} self.
  */
 
 exports.clear = function(){
