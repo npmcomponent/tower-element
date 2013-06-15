@@ -127,7 +127,8 @@ statics.disinherit = function(name){
 /**
  * Clear everything (for testing).
  *
- * @return {this} self.
+ * @chainable
+ * @return {Function} exports The main `element` function.
  */
 
 exports.clear = function(){
