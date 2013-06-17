@@ -102,12 +102,12 @@ statics.disinherit = function(name){
 
   if (this.superclasses.hasOwnProperty(name)) {
     delete this.superclasses[name];
-    this.superclasses.splice(1, this.superclasses.indexOf((name));
+    this.superclasses.splice(1, this.superclasses.indexOf(name));
   }
 
   if (parent.subclasses.hasOwnProperty(this.id)) {
     delete parent.subclasses[this.id];
-    parent.subclasses.splice(1, parent.subclasses.indexOf((this.id));
+    parent.subclasses.splice(1, parent.subclasses.indexOf(this.id));
   }
 
   return this;
