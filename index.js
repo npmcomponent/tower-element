@@ -7,7 +7,6 @@ var Emitter = require('tower-emitter');
 var content = require('tower-content');
 var proto = require('./lib/proto');
 var statics = require('./lib/statics');
-var directives = require('./lib/directives');
 
 /**
  * Expose `element`.
@@ -140,9 +139,3 @@ exports.clear = function(){
   exports.off();
   return this;
 };
-
-/**
- * Add `data-element` directive.
- */
-
-directives(exports);

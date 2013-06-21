@@ -7,8 +7,6 @@ if ('undefined' === typeof window) {
   var assert = require('timoxley-assert');
 }
 
-var query = require('component-query');
-
 describe('element', function(){
   beforeEach(element.clear);
 

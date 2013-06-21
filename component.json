@@ -13,14 +13,12 @@
   },
   "development": {
     "visionmedia/mocha": "*",
-    "timoxley/assert": "*",
-    "component/query": "*"
+    "timoxley/assert": "*"
   },
   "scripts": [
     "index.js",
     "lib/proto.js",
-    "lib/statics.js",
-    "lib/directives.js"
+    "lib/statics.js"
   ],
   "license": "MIT"
 }
