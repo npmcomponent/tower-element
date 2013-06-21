@@ -35,6 +35,8 @@ function element(name) {
 
   function Element(options) {
     this.name = name;
+    // if you pass in a scope, it will be the parent scope.
+    if (content.is(options)) options = { parent: options };
     this.content = this.constructor.content.init(options);
   }
 
