@@ -49,6 +49,9 @@ function element(name) {
 
   Element.id = name;
   Element.content = content(name);
+  // XXX: not sure if this should be done, but it simplifies
+  // the api if you want to use the attrs on the element.
+  Element.attrs = Element.content.attrs;
   Element.superclasses = [];
   Element.subclasses = [];
   exports.collection[name] = Element;
