@@ -2,13 +2,13 @@
   "name": "tower-element",
   "repo": "tower/element",
   "description": "Tower Element component",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [],
   "dependencies": {
-    "tower/emitter": "*",
-    "tower/template": "*",
-    "tower/directive": "*",
-    "tower/content": "*",
+    "tower/emitter": "0.1.0",
+    "tower/template": "0.1.0",
+    "tower/directive": "0.1.0",
+    "tower/content": "0.1.0",
     "component/domify": "*"
   },
   "development": {

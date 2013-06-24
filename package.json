@@ -3,9 +3,9 @@
   "version": "0.0.2",
   "main": "./index.js",
   "dependencies": {
-    "tower-template": "*",
-    "tower-content": "*",
-    "tower-emitter": "*"
+    "tower-template": "~0.1.0",
+    "tower-content": "~0.1.0",
+    "tower-emitter": "~0.1.0"
   },
   "repository": {
     "type" : "git",
