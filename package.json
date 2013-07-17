@@ -1,11 +1,11 @@
 {
   "name": "tower-element",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "main": "./index.js",
   "dependencies": {
-    "tower-template": "~0.1.0",
-    "tower-content": "~0.1.0",
-    "tower-emitter": "~0.1.0"
+    "tower-template": "~0.1.2",
+    "tower-content": "~0.1.2",
+    "tower-emitter": "~0.1.2"
   },
   "repository": {
     "type" : "git",
