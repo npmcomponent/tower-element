@@ -32,11 +32,9 @@ function element(name) {
   if (exports.collection[name])
     return exports.collection[name];
 
-  function Element(options) {
+  function Element(data, parent) {
     this.name = name;
-    // if you pass in a scope, it will be the parent scope.
-    if (content.is(options)) options = { parent: options };
-    this.content = this.constructor.content.init(options);
+    this.content = this.constructor.content.init(data, parent);
   }
 
   for (var key in statics) Element[key] = statics[key];

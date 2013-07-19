@@ -2,7 +2,7 @@
   "name": "tower-element",
   "repo": "tower/element",
   "description": "Tower Element component",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "keywords": [],
   "dependencies": {
     "tower/emitter": "0.1.2",
