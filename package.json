@@ -3,12 +3,18 @@
   "version": "0.0.5",
   "main": "./index.js",
   "dependencies": {
-    "tower-template": "~0.1.2",
-    "tower-content": "~0.1.2",
-    "tower-emitter": "~0.1.2"
+    "tower-template": "*",
+    "tower-content": "*",
+    "tower-emitter": "*",
+    "tower-server-dom": "*",
+    "tower-text-directive": "*",
+    "domify": "~1.0.0"
+  },
+  "devDependencies": {
+    "jsdom": "*"
   },
   "repository": {
-    "type" : "git",
-    "url" : "http://github.com/tower/element.git"
+    "type": "git",
+    "url": "http://github.com/tower/element.git"
   }
 }

@@ -5,6 +5,7 @@
 
 var Emitter = require('tower-emitter');
 var content = require('tower-content');
+var directive = require('tower-directive');
 var proto = require('./lib/proto');
 var statics = require('./lib/statics');
 
@@ -55,10 +56,23 @@ function element(name) {
   Element.subclasses = [];
   exports.collection[name] = Element;
   exports.collection.push(Element);
+  elementDirective(name);
   exports.emit('define', Element);
   exports.emit('define ' + name, Element);
   return Element;
 }
+
+/**
+ * Output code for IE.
+ */
+
+exports.precompileForIE = function(){
+  var code = [];
+  for (var i = 0, n = exports.collection.length; i < n; i++) {
+    code.push("document.createElement('" + exports.collection[i].id + "')");
+  }
+  return code.join(';');
+};
 
 /**
  * Mixin `Emitter`.
@@ -137,3 +151,43 @@ exports.clear = function(){
   exports.off();
   return this;
 };
+
+function elementDirective(name) {
+  return directive(name, exec).types({ element: true });
+
+  function exec(parentScope, el, exp, nodeFn, attrs) {
+    var Element = element(name);
+    var customEl = Element.init();
+    var scope = customEl.content;
+    var elementAttrs = Element.content.attrs;
+    for (var i = 0, n = elementAttrs.length; i < n; i++) {
+      watch(elementAttrs[i]);
+    }
+
+    var childEl = customEl.render();
+    if (childEl) el.appendChild(childEl);
+
+    customEl.constructor.emit('render', scope, el);
+
+    // XXX: element.render()
+    // console.log(scope.data, parentScope.data)
+    // nodeFn(scope);
+    return scope;
+
+    function watch(attr) {
+      if (!attrs[attr.name]) return;
+
+      set(); // initialize
+
+      // bind changes in parent scope to this element's
+      // isolated scope
+      var unwatch = attrs[attr.name].watch(parentScope, set);
+
+      scope.on('remove', unwatch);
+
+      function set() {
+        scope.set(attr.name, attrs[attr.name].fn(parentScope))
+      }
+    }
+  }
+}
