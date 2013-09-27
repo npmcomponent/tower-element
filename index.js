@@ -216,7 +216,8 @@ function elementDirective(name, parent, prototype) {
 
       function set() {
         //scope.set(attr.name, attrs[attr.name].fn(parentScope))
-        scope.set(attr.name, el.getAttribute(attr.name));
+        if (el.hasAttribute(attr.name))
+          scope.set(attr.name, el.getAttribute(attr.name));
       }
     }
   }
