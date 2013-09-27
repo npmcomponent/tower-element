@@ -43,16 +43,15 @@ function element(name, parent) {
     return Element.render(el, parent, prototype);
   }
 
+  // for old browser
   if (!Object.__proto__) {
     if (parent) {
       var obj = document.createElement(name);
       nativePrototype = Object.getPrototypeOf(obj);
     }
-    var proto = prototype, ancestor;
+    var proto = prototype;
     while (proto && (proto !== nativePrototype)) {
-      var ancestor = Object.getPrototypeOf(proto);
-      proto.__proto__ = ancestor;
-      proto = ancestor;
+      proto = proto.__proto__ = Object.getPrototypeOf(proto);
     }
   }
 
@@ -221,4 +220,16 @@ function elementDirective(name, parent, prototype) {
       }
     }
   }
+}
+
+/**
+ * IE8 polyfill?
+ */
+
+if (typeof Object.create !== "function") {
+    Object.create = function (o) {
+        function F() {}
+        F.prototype = o;
+        return new F();
+    };
 }
