@@ -8,12 +8,14 @@
     "tower/emitter": "*",
     "tower/template": "*",
     "tower/directive": "*",
+    "tower/directive-expression": "*",
     "tower/content": "*",
     "component/domify": "*"
   },
   "development": {
     "visionmedia/mocha": "*",
-    "timoxley/assert": "*"
+    "timoxley/assert": "*",
+    "tower/text-directive": "*"
   },
   "scripts": [
     "index.js",

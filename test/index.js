@@ -22,7 +22,31 @@ require('tower-text-directive');
 describe('element', function(){
   beforeEach(element.clear);
 
-  it('should define', function(done){
+  it('should be custom!', function(){
+    var el = document.createElement('random');
+    el.setAttribute('data-text', 'foo');
+    assert('' === el.textContent);
+    document.body.appendChild(el);
+    var calls = [];
+
+    // define custom element.
+    element('random').attr('foo')
+      .on('init', function(_el){
+        el = _el;
+        calls.push('init');
+      })
+      .on('render', function(el){
+        calls.push('render');
+      });
+
+    var fn = template(el);
+    var scope = content('asdf').init({ foo: 'bar' });
+    fn(scope);
+    assert('init render' === calls.join(' '));
+    assert('bar' === document.querySelector('random').textContent);
+  });
+
+  /*it('should define', function(done){
     element.on('define', function(Popup){
       assert('popup' === Popup.id);
       done();
@@ -95,5 +119,5 @@ describe('element', function(){
     var fn = template(el);
     var scope = content('random').init({ image: '/foo.png' });
     fn(scope);
-  });
+  });*/
 });

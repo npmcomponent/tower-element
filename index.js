@@ -29,13 +29,67 @@ exports.collection = [];
  * @api public
  */
 
-function element(name) {
+function element(name, parent) {
   if (exports.collection[name])
     return exports.collection[name];
 
+  var prototype = Object.create(HTMLElement.prototype);
+  prototype.constructor = Element;
+  var nativePrototype = HTMLElement.prototype;
+
   function Element(data, parent) {
-    this.name = name;
-    this.content = this.constructor.content.init(data, parent);
+    // elementDirective
+
+    var el = document.createElement(name);
+    el.__scope__ = Element.content.init();
+
+    // some definitions specify an 'is' attribute
+    if (parent) el.setAttribute('is', parent);
+
+    // prototype swizzling is best
+    if (Object.__proto__) {
+      el.__proto__ = prototype;
+    } else {
+      // TODO(sjmiles): 'used' allows us to only copy the 'youngest' version of
+      // any property. This set should be precalculated. We also need to
+      // consider this for supporting 'super'.
+      var used = {};
+      // start with inSrc
+      var p = prototype;
+      // sometimes the default is HTMLUnknownElement.prototype instead of
+      // HTMLElement.prototype, so we add a test
+      // the idea is to avoid mixing in native prototypes, so adding
+      // the second test is WLOG
+      while (p !== nativePrototype && p !== HTMLUnknownElement.prototype) {
+        var keys = Object.getOwnPropertyNames(p);
+        for (var i=0, k; k=keys[i]; i++) {
+          if (!used[k]) {
+            Object.defineProperty(el, k, Object.getOwnPropertyDescriptor(p, k));
+            used[k] = 1;
+          }
+        }
+        p = Object.getPrototypeOf(p);
+      }
+
+      el.__proto__ = prototype;
+    }
+
+    Element.emit('init', el);
+
+    return el;
+  }
+
+  if (!Object.__proto__) {
+    if (parent) {
+      var obj = document.createElement(name);
+      nativePrototype = Object.getPrototypeOf(obj);
+    }
+    var proto = prototype, ancestor;
+    while (proto && (proto !== nativePrototype)) {
+      var ancestor = Object.getPrototypeOf(proto);
+      proto.__proto__ = ancestor;
+      proto = ancestor;
+    }
   }
 
   for (var key in statics) Element[key] = statics[key];
@@ -156,22 +210,37 @@ function elementDirective(name) {
   return directive(name, exec).types({ element: true });
 
   function exec(parentScope, el, exp, nodeFn, attrs) {
+    //if (el.__skip__) return;
+
     var Element = element(name);
-    var customEl = Element.init();
-    var scope = customEl.content;
-    var elementAttrs = Element.content.attrs;
-    for (var i = 0, n = elementAttrs.length; i < n; i++) {
-      watch(elementAttrs[i]);
+    var children = Element.initChildren();
+    //for (var i = 0, n = el.attributes.length; i < n; i++) {
+    //  customEl.setAttribute(el.attributes[i].name, el.attributes[i].value);
+    //}
+    Element.emit('init', el);
+
+    if (children) {
+      var scope = children.__scope__;
+      var elementAttrs = Element.content.attrs;
+      for (var i = 0, n = elementAttrs.length; i < n; i++) {
+        watch(elementAttrs[i]);
+      }
+      // XXX: <content>
+      el.appendChild(children); 
     }
 
-    var childEl = customEl.render();
-    if (childEl) el.appendChild(childEl);
-
-    customEl.constructor.emit('render', scope, el);
-
-    // XXX: element.render()
-    // console.log(scope.data, parentScope.data)
-    // nodeFn(scope);
+    /*
+    // the one that was in the dom was just a "ghost" or whatever.
+    // what we really want is the custom element
+    // XXX: only do this if `.replace()`?
+    el.parentNode.replaceChild(customEl, el);
+    el = customEl;
+    // XXX: horrible hack for now
+    el.__skip__ = true;
+    nodeFn(parentScope, el);
+    delete el.__skip__;
+    */
+    Element.emit('render', el);
     return scope;
 
     function watch(attr) {
