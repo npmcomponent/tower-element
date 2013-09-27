@@ -33,7 +33,7 @@ function element(name, parent) {
   if (exports.collection[name])
     return exports.collection[name];
 
-  var prototype = Object.create(HTMLElement.prototype);
+  var prototype = (objectCreate || Object.create)(HTMLElement.prototype);
   prototype.constructor = Element;
   var nativePrototype = HTMLElement.prototype;
 
@@ -226,8 +226,9 @@ function elementDirective(name, parent, prototype) {
  * IE8 polyfill?
  */
 
+var objectCreate;
 if (typeof Object.create !== "function") {
-    Object.create = function (o) {
+    objectCreate = function (o) {
         function F() {}
         F.prototype = o;
         return new F();
