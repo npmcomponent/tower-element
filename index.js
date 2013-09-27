@@ -205,11 +205,11 @@ function elementDirective(name, parent, prototype) {
       if (!attrs[attr.name]) return;
 
       // set(); // initialize
+      return;
 
       // bind changes in parent scope to this element's
       // isolated scope
       // XXX: don't need to watch them, just delegate to data-[attr] directives
-      return;
       var unwatch = attrs[attr.name].watch(parentScope, set);
 
       scope.on('remove', unwatch);
