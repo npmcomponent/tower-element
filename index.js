@@ -39,44 +39,8 @@ function element(name, parent) {
 
   function Element(data, parent) {
     // elementDirective
-
     var el = document.createElement(name);
-    el.__scope__ = Element.content.init();
-
-    // some definitions specify an 'is' attribute
-    if (parent) el.setAttribute('is', parent);
-
-    // prototype swizzling is best
-    if (Object.__proto__) {
-      el.__proto__ = prototype;
-    } else {
-      // TODO(sjmiles): 'used' allows us to only copy the 'youngest' version of
-      // any property. This set should be precalculated. We also need to
-      // consider this for supporting 'super'.
-      var used = {};
-      // start with inSrc
-      var p = prototype;
-      // sometimes the default is HTMLUnknownElement.prototype instead of
-      // HTMLElement.prototype, so we add a test
-      // the idea is to avoid mixing in native prototypes, so adding
-      // the second test is WLOG
-      while (p !== nativePrototype && p !== HTMLUnknownElement.prototype) {
-        var keys = Object.getOwnPropertyNames(p);
-        for (var i=0, k; k=keys[i]; i++) {
-          if (!used[k]) {
-            Object.defineProperty(el, k, Object.getOwnPropertyDescriptor(p, k));
-            used[k] = 1;
-          }
-        }
-        p = Object.getPrototypeOf(p);
-      }
-
-      el.__proto__ = prototype;
-    }
-
-    Element.emit('init', el);
-
-    return el;
+    return Element.render(el, parent, prototype);
   }
 
   if (!Object.__proto__) {
@@ -110,7 +74,7 @@ function element(name, parent) {
   Element.subclasses = [];
   exports.collection[name] = Element;
   exports.collection.push(Element);
-  elementDirective(name);
+  elementDirective(name, parent);
   exports.emit('define', Element);
   exports.emit('define ' + name, Element);
   return Element;
@@ -206,28 +170,23 @@ exports.clear = function(){
   return this;
 };
 
-function elementDirective(name) {
+function elementDirective(name, parent, prototype) {
   return directive(name, exec).types({ element: true });
 
   function exec(parentScope, el, exp, nodeFn, attrs) {
     //if (el.__skip__) return;
 
     var Element = element(name);
-    var children = Element.initChildren();
-    //for (var i = 0, n = el.attributes.length; i < n; i++) {
-    //  customEl.setAttribute(el.attributes[i].name, el.attributes[i].value);
-    //}
-    Element.emit('init', el);
+    Element.render(el, parent, prototype);
 
-    if (children) {
-      var scope = children.__scope__;
-      var elementAttrs = Element.content.attrs;
-      for (var i = 0, n = elementAttrs.length; i < n; i++) {
-        watch(elementAttrs[i]);
-      }
-      // XXX: <content>
-      el.appendChild(children); 
+    var scope = el.__scope__;
+    var elementAttrs = Element.content.attrs;
+    for (var i = 0, n = elementAttrs.length; i < n; i++) {
+      watch(elementAttrs[i]);
     }
+    delete el.__scope__;
+    // XXX: <content>
+    //el.appendChild(children);
 
     /*
     // the one that was in the dom was just a "ghost" or whatever.
@@ -241,21 +200,24 @@ function elementDirective(name) {
     delete el.__skip__;
     */
     Element.emit('render', el);
-    return scope;
+    //return scope;
 
     function watch(attr) {
       if (!attrs[attr.name]) return;
 
-      set(); // initialize
+      // set(); // initialize
 
       // bind changes in parent scope to this element's
       // isolated scope
+      // XXX: don't need to watch them, just delegate to data-[attr] directives
+      return;
       var unwatch = attrs[attr.name].watch(parentScope, set);
 
       scope.on('remove', unwatch);
 
       function set() {
-        scope.set(attr.name, attrs[attr.name].fn(parentScope))
+        //scope.set(attr.name, attrs[attr.name].fn(parentScope))
+        scope.set(attr.name, el.getAttribute(attr.name));
       }
     }
   }

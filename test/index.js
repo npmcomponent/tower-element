@@ -23,10 +23,7 @@ describe('element', function(){
   beforeEach(element.clear);
 
   it('should be custom!', function(){
-    var el = document.createElement('random');
-    el.setAttribute('data-text', 'foo');
-    assert('' === el.textContent);
-    document.body.appendChild(el);
+    var el = document.querySelector('random');
     var calls = [];
 
     // define custom element.
@@ -44,6 +41,20 @@ describe('element', function(){
     fn(scope);
     assert('init render' === calls.join(' '));
     assert('bar' === document.querySelector('random').textContent);
+  });
+
+  it('should be custom with nesting!', function(){
+    var el = document.querySelector('background');
+
+    // define custom element.
+    element('background')
+      .attr('color')
+      .template('<span>color: </span><span data-text="color"></span>');
+
+    var fn = template(el);
+    var scope = content('asdf').init();
+    fn(scope);
+    console.log(el.children[0].__scope__);
   });
 
   /*it('should define', function(done){
