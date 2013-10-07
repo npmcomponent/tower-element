@@ -21,6 +21,7 @@
   </style>
 
   <banner text="Hello World" color="red"></banner>
+  <pager prevLabel="Previous" nextLabel="Next"></pager>
 
   <script>
     var template = require('tower-template');
@@ -28,11 +29,31 @@
     var element = require('tower-element');
     require('tower-style-directive');
     require('tower-text-directive');
+    require('tower-event-directive')();
 
     element('banner')
       .attr('color')
       .attr('text')
       .template('<h1 data-style="color: color" data-text="text"></h1>', true);
+
+    element('pager')
+      .attr('prevLabel')
+      .attr('nextLabel')
+      .action('prev', prev)
+      .action('next', next)
+      .template(
+          '<ul>'
+        + '  <li class="prev" on-click="prev()" data-text="prevLabel"></li>'
+        + '  <li class="next" on-click="next()" data-text="nextLabel"></li>'
+        + '</ul>')
+
+    function prev() {
+      console.log('prev!');
+    }
+
+    function next() {
+      console.log('next!');
+    }
 
     var data = {
       myColor: 'red'

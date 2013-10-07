@@ -15,8 +15,9 @@
   "development": {
     "visionmedia/mocha": "*",
     "timoxley/assert": "*",
+    "tower/style-directive": "*",
     "tower/text-directive": "*",
-    "tower/style-directive": "*"
+    "tower/event-directive": "*"
   },
   "scripts": [
     "index.js",
