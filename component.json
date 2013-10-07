@@ -9,6 +9,7 @@
     "tower/template": "*",
     "tower/directive": "*",
     "tower/directive-expression": "*",
+    "tower/attr-directive": "*",
     "tower/content": "*",
     "component/domify": "*"
   },
