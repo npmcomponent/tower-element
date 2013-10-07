@@ -20,17 +20,19 @@
     }
   </style>
 
-  <background color="red"></background>
+  <banner text="Hello World" color="red"></banner>
 
   <script>
     var template = require('tower-template');
     var content = require('tower-content');
     var element = require('tower-element');
     require('tower-style-directive');
+    require('tower-text-directive');
 
-    element('background')
+    element('banner')
       .attr('color')
-      .template('<div data-style="color: color">Hello World</div>', true);
+      .attr('text')
+      .template('<h1 data-style="color: color" data-text="text"></h1>', true);
 
     var data = {
       myColor: 'red'
