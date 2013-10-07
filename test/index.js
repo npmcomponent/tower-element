@@ -54,7 +54,7 @@ describe('element', function(){
     var fn = template(el);
     var scope = content('asdf').init();
     fn(scope);
-    console.log(el.children[0].__scope__);
+    console.log(el.children[0]);
   });
 
   /*it('should define', function(done){

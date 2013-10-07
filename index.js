@@ -170,11 +170,9 @@ exports.clear = function(){
 };
 
 function elementDirective(name, parent, prototype) {
-  return directive(name, exec).types({ element: true });
+  return directive(name, exec).type('element');
 
   function exec(parentScope, el, exp, nodeFn, attrs) {
-    //if (el.__skip__) return;
-
     var Element = element(name);
     Element.render(el, parent, prototype);
 
