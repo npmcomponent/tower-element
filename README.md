@@ -42,3 +42,9 @@ Paginator template:
 ## Licence
 
 MIT
+
+## Notes
+
+Maybe a way to isolate element styles (by resetting to defaults in old browsers)
+
+- http://stackoverflow.com/questions/15901030/reset-remove-css-styles-for-element-only
