@@ -170,52 +170,56 @@ exports.clear = function(){
 };
 
 function elementDirective(name, parent, prototype) {
-  return directive(name, exec).type('element');
+  return directive(name, compile).type('element').priority(10000);
 
-  function exec(parentScope, el, exp, nodeFn, attrs) {
-    var Element = element(name);
-    Element.render(el, parent, prototype);
+  function compile(el) {
+    return exec;
 
-    var scope = el.__scope__;
-    var elementAttrs = Element.content.attrs;
-    for (var i = 0, n = elementAttrs.length; i < n; i++) {
-      watch(elementAttrs[i]);
-    }
-    delete el.__scope__;
-    // XXX: <content>
-    //el.appendChild(children);
+    function exec(parentScope, cursor, exp, nodeFn, attrs) {
+      var Element = element(name);
+      Element.render(el, parent, prototype);
 
-    /*
-    // the one that was in the dom was just a "ghost" or whatever.
-    // what we really want is the custom element
-    // XXX: only do this if `.replace()`?
-    el.parentNode.replaceChild(customEl, el);
-    el = customEl;
-    // XXX: horrible hack for now
-    el.__skip__ = true;
-    nodeFn(parentScope, el);
-    delete el.__skip__;
-    */
-    Element.emit('render', el);
-    //return scope;
+      var scope = el.__scope__;
+      var elementAttrs = Element.content.attrs;
+      for (var i = 0, n = elementAttrs.length; i < n; i++) {
+        watch(elementAttrs[i]);
+      }
+      delete el.__scope__;
+      // XXX: <content>
+      //el.appendChild(children);
 
-    function watch(attr) {
-      if (!attrs[attr.name]) return;
+      /*
+      // the one that was in the dom was just a "ghost" or whatever.
+      // what we really want is the custom element
+      // XXX: only do this if `.replace()`?
+      el.parentNode.replaceChild(customEl, el);
+      el = customEl;
+      // XXX: horrible hack for now
+      el.__skip__ = true;
+      nodeFn(parentScope, el);
+      delete el.__skip__;
+      */
+      Element.emit('render', el);
+      //return scope;
 
-      // set(); // initialize
-      return;
+      function watch(attr) {
+        if (!attrs[attr.name]) return;
 
-      // bind changes in parent scope to this element's
-      // isolated scope
-      // XXX: don't need to watch them, just delegate to data-[attr] directives
-      var unwatch = attrs[attr.name].watch(parentScope, set);
+        // set(); // initialize
+        return;
 
-      scope.on('remove', unwatch);
+        // bind changes in parent scope to this element's
+        // isolated scope
+        // XXX: don't need to watch them, just delegate to data-[attr] directives
+        var unwatch = attrs[attr.name].watch(parentScope, set);
 
-      function set() {
-        //scope.set(attr.name, attrs[attr.name].fn(parentScope))
-        if (el.hasAttribute(attr.name))
-          scope.set(attr.name, el.getAttribute(attr.name));
+        scope.on('remove', unwatch);
+
+        function set() {
+          //scope.set(attr.name, attrs[attr.name].fn(parentScope))
+          if (el.hasAttribute(attr.name))
+            scope.set(attr.name, el.getAttribute(attr.name));
+        }
       }
     }
   }

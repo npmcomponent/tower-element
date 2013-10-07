@@ -45,6 +45,9 @@ MIT
 
 ## Notes
 
+- custom elements spec: http://www.w3.org/TR/2013/WD-custom-elements-20130514/
+- http://www.html5rocks.com/en/tutorials/webcomponents/customelements/
+
 Maybe a way to isolate element styles (by resetting to defaults in old browsers)
 
 - http://stackoverflow.com/questions/15901030/reset-remove-css-styles-for-element-only

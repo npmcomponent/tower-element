@@ -18,7 +18,8 @@
     "timoxley/assert": "*",
     "tower/style-directive": "*",
     "tower/text-directive": "*",
-    "tower/event-directive": "*"
+    "tower/event-directive": "*",
+    "tower/list-directive": "*"
   },
   "scripts": [
     "index.js",

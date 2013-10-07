@@ -21,6 +21,9 @@
   </style>
 
   <banner text="Hello World" data-color="myColor"></banner>
+  <message data-each="message in messages">
+    <span data-text="message.text"></span>
+  </message>
   <pager prevLabel="Previous" nextLabel="Next"></pager>
 
   <script>
@@ -29,6 +32,7 @@
     var element = require('tower-element');
     require('tower-style-directive');
     require('tower-text-directive');
+    require('tower-list-directive');
     var event = require('tower-event-directive');
     event();
     // XXX: should be able to add custom events to dom nodes
@@ -38,6 +42,8 @@
       .attr('color')
       .attr('text')
       .template('<h1 data-style="color: color" data-text="text"></h1>', true);
+
+    element('message')
 
     element('pager')
       .attr('prevLabel')
@@ -60,7 +66,8 @@
     }
 
     var data = {
-      myColor: 'red'
+      myColor: 'red',
+      messages: [ { text: 'foo' }, { text: 'bar' } ]
     };
 
     var scope = content('random').init(data);
