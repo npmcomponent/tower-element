@@ -43,18 +43,6 @@ function element(name, parent) {
     return Element.render(el, parent, prototype);
   }
 
-  // for old browser
-  if (!Object.__proto__) {
-    if (parent) {
-      var obj = document.createElement(name);
-      nativePrototype = Object.getPrototypeOf(obj);
-    }
-    var proto = prototype;
-    while (proto && (proto !== nativePrototype)) {
-      proto = proto.__proto__ = Object.getPrototypeOf(proto);
-    }
-  }
-
   for (var key in statics) Element[key] = statics[key];
 
   // prototype
@@ -64,11 +52,20 @@ function element(name, parent) {
   
   for (var key in proto) Element.prototype[key] = proto[key];
 
+  // for old browser
+  if (!Object.__proto__) {
+    if (parent) {
+      var obj = document.createElement(parent);
+      nativePrototype = Object.getPrototypeOf(obj);
+    }
+    var proto = prototype;
+    while (proto && (proto !== nativePrototype)) {
+      proto = proto.__proto__ = Object.getPrototypeOf(proto);
+    }
+  }
+
   Element.id = name;
   Element.content = content(name);
-  // XXX: not sure if this should be done, but it simplifies
-  // the api if you want to use the attrs on the element.
-  Element.attrs = Element.content.attrs;
   Element.superclasses = [];
   Element.subclasses = [];
   exports.collection[name] = Element;
@@ -78,18 +75,6 @@ function element(name, parent) {
   exports.emit('define ' + name, Element);
   return Element;
 }
-
-/**
- * Output code for IE.
- */
-
-exports.precompileForIE = function(){
-  var code = [];
-  for (var i = 0, n = exports.collection.length; i < n; i++) {
-    code.push("document.createElement('" + exports.collection[i].id + "')");
-  }
-  return code.join(';');
-};
 
 /**
  * Mixin `Emitter`.
@@ -169,12 +154,28 @@ exports.clear = function(){
   return this;
 };
 
+/**
+ * Output code for IE.
+ */
+
+exports.precompileForIE = function(){
+  var code = [];
+  for (var i = 0, n = exports.collection.length; i < n; i++) {
+    code.push("document.createElement('" + exports.collection[i].id + "')");
+  }
+  return code.join(';');
+};
+
+/**
+ * Define `elementDirective`.
+ */
+
 function elementDirective(name, parent, prototype) {
-  return directive(name, compile).type('element').priority(10000);
+  return directive(name, compile).type('element').priority(1000);
 
   function compile(el) {
     return exec;
-
+    
     function exec(parentScope, cursor, exp, nodeFn, attrs) {
       var Element = element(name);
       Element.render(el, parent, prototype);
@@ -185,20 +186,6 @@ function elementDirective(name, parent, prototype) {
         watch(elementAttrs[i]);
       }
       delete el.__scope__;
-      // XXX: <content>
-      //el.appendChild(children);
-
-      /*
-      // the one that was in the dom was just a "ghost" or whatever.
-      // what we really want is the custom element
-      // XXX: only do this if `.replace()`?
-      el.parentNode.replaceChild(customEl, el);
-      el = customEl;
-      // XXX: horrible hack for now
-      el.__skip__ = true;
-      nodeFn(parentScope, el);
-      delete el.__skip__;
-      */
       Element.emit('render', el);
       //return scope;
 
