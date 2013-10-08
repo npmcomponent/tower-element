@@ -171,14 +171,15 @@ exports.precompileForIE = function(){
  */
 
 function elementDirective(name, parent, prototype) {
-  return directive(name, compile).type('element').priority(1000);
+  return directive(name, compile).type('element').priority(10000);
 
   function compile(el) {
     return exec;
     
     function exec(parentScope, cursor, exp, nodeFn, attrs) {
+      el = cursor;
       var Element = element(name);
-      Element.render(el, parent, prototype);
+      Element.render(el, parent, prototype, parentScope);
 
       var scope = el.__scope__;
       var elementAttrs = Element.content.attrs;
@@ -192,7 +193,7 @@ function elementDirective(name, parent, prototype) {
       function watch(attr) {
         if (!attrs[attr.name]) return;
 
-        // set(); // initialize
+        //set(); // initialize
         return;
 
         // bind changes in parent scope to this element's
