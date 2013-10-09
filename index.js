@@ -37,20 +37,13 @@ function element(name, parent) {
   prototype.constructor = Element;
   var nativePrototype = HTMLElement.prototype;
 
-  function Element(data, parent) {
+  function Element(data, parentScope) {
     // elementDirective
     var el = document.createElement(name);
-    return Element.render(el, parent, prototype);
+    return Element.render(el, parent, prototype, parentScope);
   }
 
   for (var key in statics) Element[key] = statics[key];
-
-  // prototype
-
-  Element.prototype = {};
-  Element.prototype.constructor = Element;
-  
-  for (var key in proto) Element.prototype[key] = proto[key];
 
   // for old browser
   if (!Object.__proto__) {

@@ -1,0 +1,18 @@
+<element type="reptile">
+  <template>
+    <span data-text="length"></span>
+    <ul>
+      <li data-each="fossil in fossils"></li>
+    </ul>
+  </template>
+  <script>
+    var element = require('tower-element');
+
+    element('reptile')
+      .attr('length')
+      .attr('fossils', 'array')
+      .func('age', function(){
+        
+      });
+  </script>
+</element>
