@@ -6,6 +6,7 @@
 var Emitter = require('tower-emitter');
 var content = require('tower-content');
 var directive = require('tower-directive');
+var template = require('tower-template');
 var proto = require('./lib/proto');
 var statics = require('./lib/statics');
 
@@ -40,10 +41,22 @@ function element(name, parent) {
   function Element(data, parentScope) {
     // elementDirective
     var el = document.createElement(name);
-    return Element.render(el, parent, prototype, parentScope);
+    for (var key in data) {
+      el.setAttribute(key, data[key]);
+    }
+    template(el)(parentScope);
+    return el;
+    //return Element.render(el, parent, prototype, parentScope, data);
   }
 
   for (var key in statics) Element[key] = statics[key];
+
+  // prototype
+
+  Element.prototype = {};
+  Element.prototype.constructor = Element;
+  
+  for (var key in proto) Element.prototype[key] = proto[key];
 
   // for old browser
   if (!Object.__proto__) {
