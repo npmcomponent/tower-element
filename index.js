@@ -192,28 +192,19 @@ function elementDirective(name, parent, prototype) {
       for (var i = 0, n = elementAttrs.length; i < n; i++) {
         watch(elementAttrs[i]);
       }
-      delete el.__scope__;
       Element.emit('render', el);
       return scope;
 
       function watch(attr) {
-        if (!attrs[attr.name]) return;
-
-        //set(); // initialize
-        return;
-
-        // bind changes in parent scope to this element's
-        // isolated scope
-        // XXX: don't need to watch them, just delegate to data-[attr] directives
-        var unwatch = attrs[attr.name].watch(parentScope, set);
-
-        scope.on('remove', unwatch);
-
-        function set() {
-          //scope.set(attr.name, attrs[attr.name].fn(parentScope))
-          if (el.hasAttribute(attr.name))
-            scope.set(attr.name, el.getAttribute(attr.name));
-        }
+        var dynamicName = 'data-' + attr.name;
+        scope.edge(attr.name).on('change', function(){
+          // XXX: maybe a more generic way
+          if (attrs[dynamicName] && attrs[dynamicName].fn) {
+            attrs[dynamicName].fn(parentScope, scope.get(attr.name));
+          } else {
+            el.setAttribute(attr.name, scope.get(attr.name));
+          }
+        });
       }
     }
   }
