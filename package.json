@@ -1,20 +1,16 @@
 {
   "name": "tower-element",
-  "version": "0.0.5",
-  "main": "./index.js",
+  "description": "Tower Element component",
+  "version": "0.0.9",
+  "keywords": [],
   "dependencies": {
-    "tower-template": "*",
-    "tower-content": "*",
-    "tower-emitter": "*",
-    "tower-server-dom": "*",
-    "tower-text-directive": "*",
-    "domify": "~1.0.0"
+    "tower-emitter": "git://github.com/npmcomponent/tower-emitter.git",
+    "tower-template": "git://github.com/npmcomponent/tower-template.git",
+    "tower-directive": "git://github.com/npmcomponent/tower-directive.git",
+    "tower-directive-expression": "git://github.com/npmcomponent/tower-directive-expression.git",
+    "tower-attr-directive": "git://github.com/npmcomponent/tower-attr-directive.git",
+    "tower-content": "git://github.com/npmcomponent/tower-content.git",
+    "component-domify": "git://github.com/npmcomponent/component-domify.git"
   },
-  "devDependencies": {
-    "jsdom": "*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/tower/element.git"
-  }
+  "license": "MIT"
 }
